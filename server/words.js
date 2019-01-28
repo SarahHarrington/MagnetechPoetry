@@ -1,25 +1,4 @@
-const express = require('express');
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const PORT = process.env.PORT || 5000;
-
-app.use(express.static(`${__dirname}/public`));
-
-io.on('connection', socket => {
-  socket.emit('newClientConnection', socket.id);
-
-  socket.on('wordMoved', (wordMove) => {
-    console.log(wordMove);
-    moveTheWord(wordMove);
-  })
-
-  function moveTheWord(wordMove) {
-    io.emit('movingWord', wordMove);
-  }
-})
-
-var words = ['the', 'of', 'to', 'and', 'a', 'in', 'is', 'it', 'you', 'that', 'he', 'was', 'for',
+words = ['the', 'of', 'to', 'and', 'a', 'in', 'is', 'it', 'you', 'that', 'he', 'was', 'for',
   'on', 'are', 'with', 'as', 'I', 'follow', 'help', 'be', 'at', 'one', 'have', 'this', 'from',
   'or', 'had', 'by', 'circle', 'but', 'some', 'what', 'there', 'we', 'can', 'out', 'other', 
   'were', 'all', 'your', 'when', 'up', 'use', 'word', 'how', 'said', 'an', 'each', 'cause',
@@ -46,14 +25,3 @@ var words = ['the', 'of', 'to', 'and', 'a', 'in', 'is', 'it', 'you', 'that', 'he
   'must', 'big', 'high', 'such', 'follow', 'act', 'why', 'ask', 'people', 'change', 'went',
   'light', 'kind', 'off', 'need', 'house', 'found', 'answer', 'school', 'grow', 'study', 'still',
   'learn', 'plant', 'cover', 'food', 'sun', 'toastmasters', 'thought', 'development']
-
-let displayWords = [];
-
-function onServerStart() {
-  for (let i = 0; i < words.length; i++) {
-    
-  }
-}
-
-http.listen(PORT, '127.0.0.1');
-console.log(`Listening on port: ${PORT}`);

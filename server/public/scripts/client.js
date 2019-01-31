@@ -2,6 +2,14 @@ console.log('JS Woo!');
 const socket = io();
 
 const theBoard = document.querySelector('#the-board')
+const offsetTop = document.querySelectorAll('#the-board')['0'].offsetTop;
+console.log(offsetTop)
+
+//TODO: Determine how to deal with offset pixels, or how to maintain aspect ratio?
+let clientWidth = window.innerWidth;
+let clientHeight = window.innerHeight;
+
+console.log(`client width: ${clientWidth}, client height: ${clientHeight}`)
 
 socket.on('newClientConnection', (data) => {
   console.log('new client connected', data)
@@ -40,7 +48,7 @@ function moveTheWord(serverWord) {
   var movedWord = document.getElementById(serverWord.id);
   console.log('movedWord', movedWord)
   movedWord.style.left = serverWord.x + 'px';
-  movedWord.style.top = serverWord.y + 'px';
+  movedWord.style.top = serverWord.y + offsetTop + 'px';
 }
 
 function loadTheWords(data) {
@@ -51,8 +59,8 @@ function loadTheWords(data) {
     theWord.classList.add('word')
     theWord.setAttribute('draggable', true)
     theWord.setAttribute('ondragstart', 'dragStartHandler(event)')
-    theWord.style.left = word.x +'px'
-    theWord.style.top = word.y + 'px'
+    theWord.style.left = word.x + 'px'
+    theWord.style.top = word.y + offsetTop + 'px'
     theBoard.append(theWord);
   });
 }

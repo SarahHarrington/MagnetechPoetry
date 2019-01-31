@@ -6,20 +6,8 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.static(`${__dirname}/public`));
 
-io.on('connection', socket => {
-  socket.emit('newClientConnection', socket.id);
-
-  socket.on('wordMoved', (wordMove) => {
-    console.log(wordMove);
-    moveTheWord(wordMove);
-  })
-
-  function moveTheWord(wordMove) {
-    io.emit('movingWord', wordMove);
-  }
-})
-
-var words = ['the', 'of', 'to', 'and', 'a', 'in', 'is', 'it', 'you', 'that', 'he', 'was', 'for',
+var words = [
+  'the', 'of', 'to', 'and', 'a', 'in', 'is', 'it', 'you', 'that', 'he', 'was', 'for',
   'on', 'are', 'with', 'as', 'I', 'follow', 'help', 'be', 'at', 'one', 'have', 'this', 'from',
   'or', 'had', 'by', 'circle', 'but', 'some', 'what', 'there', 'we', 'can', 'out', 'other', 
   'were', 'all', 'your', 'when', 'up', 'use', 'word', 'how', 'said', 'an', 'each', 'cause',
@@ -49,11 +37,36 @@ var words = ['the', 'of', 'to', 'and', 'a', 'in', 'is', 'it', 'you', 'that', 'he
 
 let displayWords = [];
 
+io.on('connection', socket => {
+  socket.emit('newClientConnection', displayWords);
+
+  socket.on('wordMoved', (wordMove) => {
+    console.log(wordMove);
+    moveTheWord(wordMove);
+  })
+
+  function moveTheWord(wordMove) {
+    displayWords[wordMove.id].x = wordMove.x
+    displayWords[wordMove.id].y = wordMove.y
+    io.emit('movingWord', displayWords[wordMove.id]);
+  }
+})
+
 function onServerStart() {
+  Math.floor(Math.random() * 10) + 1;
   for (let i = 0; i < words.length; i++) {
-    
+    displayWords.push({
+      word: words[i],
+      id: i,
+      x: Math.floor(Math.random() * 1000) + 1,
+      y: Math.floor(Math.random() * 600) + 1,
+    })
   }
 }
+
+onServerStart();
+
+console.log(displayWords);
 
 http.listen(PORT, '127.0.0.1');
 console.log(`Listening on port: ${PORT}`);

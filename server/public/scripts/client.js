@@ -1,8 +1,11 @@
 console.log('JS Woo!');
 const socket = io();
 
+const theBoard = document.querySelector('#the-board')
+
 socket.on('newClientConnection', (data) => {
-  console.log('new client connected')
+  console.log('new client connected', data)
+  loadTheWords(data);
 })
 
 socket.on('movingWord', (serverWord) => {
@@ -26,16 +29,31 @@ function dragoverHandler(e) {
 function dropHandler(e) {
   e.preventDefault();
   console.log('drag drop', e);
-  activeWord.style.left = e.pageX - 10 + 'px';
-  activeWord.style.top = e.pageY - 10 + 'px';
-  socket.emit('wordMoved', {movedWord: activeWord.id, newX: e.pageX - 10, newY: e.pageY - 10});
+  // activeWord.style.left = e.pageX + 'px';
+  // activeWord.style.top = e.pageY + 'px';
+  socket.emit('wordMoved', {id: activeWord.id, x: e.offsetX, y: e.offsetY});
 }
 
+//This gets the word being moved by someone else and changes the coordinates
 function moveTheWord(serverWord) {
-  var movedWord = document.getElementById(`${serverWord.movedWord}`);
+  console.log(serverWord)
+  var movedWord = document.getElementById(serverWord.id);
   console.log('movedWord', movedWord)
-  movedWord.style.left = serverWord.newX + 'px';
-  movedWord.style.top = serverWord.newY + 'px';
+  movedWord.style.left = serverWord.x + 'px';
+  movedWord.style.top = serverWord.y + 'px';
 }
 
+function loadTheWords(data) {
+  data.forEach((word, index) => {
+    let theWord = document.createElement('span');
+    theWord.id = index;
+    theWord.innerText = word.word
+    theWord.classList.add('word')
+    theWord.setAttribute('draggable', true)
+    theWord.setAttribute('ondragstart', 'dragStartHandler(event)')
+    theWord.style.left = word.x +'px'
+    theWord.style.top = word.y + 'px'
+    theBoard.append(theWord);
+  });
+}
 

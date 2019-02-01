@@ -58,8 +58,8 @@ function onServerStart() {
     displayWords.push({
       word: words[i],
       id: i,
-      x: Math.floor(Math.random() * 1000) + 1,
-      y: Math.floor(Math.random() * 600) + 1,
+      x: Math.random() * 1,
+      y: Math.random() * 0.5,
     })
   }
 }

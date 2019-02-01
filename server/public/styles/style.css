@@ -2,20 +2,24 @@ body {
   margin: 0;
 }
 
+header {
+  height: 3vw;
+}
+
 #the-board {
   background-color: #f1f1f1;
   /* border: .1rem solid #d3d3d3; */
   height: 60vw;
-  width: 100vw;
+  width: 90vw;
 }
 
 .word {
-  padding: .4rem;
+  padding: .4vw;
   cursor: move;
   position: absolute;
   display: inline-block;
   background-color: white;
   color: black;
-  border: .1rem solid black;
+  border: .1vw solid black;
 }
 

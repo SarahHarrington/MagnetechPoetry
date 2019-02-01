@@ -6,10 +6,10 @@ const offsetTop = document.querySelectorAll('#the-board')['0'].offsetTop;
 console.log(offsetTop)
 
 //TODO: Determine how to deal with offset pixels, or how to maintain aspect ratio?
-let clientWidth = window.innerWidth;
-let clientHeight = window.innerHeight;
+let boardWidth = theBoard.clientWidth;
+let boardHeight = theBoard.clientHeight;
 
-console.log(`client width: ${clientWidth}, client height: ${clientHeight}`)
+console.log(`client width: ${boardWidth}, client height: ${boardHeight}`)
 
 socket.on('newClientConnection', (data) => {
   console.log('new client connected', data)
@@ -52,16 +52,18 @@ function moveTheWord(serverWord) {
 }
 
 function loadTheWords(data) {
-  data.forEach((word, index) => {
-    let theWord = document.createElement('span');
-    theWord.id = index;
-    theWord.innerText = word.word
-    theWord.classList.add('word')
-    theWord.setAttribute('draggable', true)
-    theWord.setAttribute('ondragstart', 'dragStartHandler(event)')
-    theWord.style.left = word.x + 'px'
-    theWord.style.top = word.y + offsetTop + 'px'
-    theBoard.append(theWord);
-  });
+  console.log(data[0])
+  
+  // data.forEach((word, index) => {
+  //   let theWord = document.createElement('span');
+  //   theWord.id = index;
+  //   theWord.innerText = word.word
+  //   theWord.classList.add('word')
+  //   theWord.setAttribute('draggable', true)
+  //   theWord.setAttribute('ondragstart', 'dragStartHandler(event)')
+  //   theWord.style.left = word.x + 'px'
+  //   theWord.style.top = word.y + offsetTop + 'px'
+  //   theBoard.append(theWord);
+  // });
 }
 

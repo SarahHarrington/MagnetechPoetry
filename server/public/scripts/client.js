@@ -27,10 +27,11 @@ let wordDifLeft;
 let wordDifTop;
 
 function dragStartHandler(e) {
-  console.log(`drag start: ${e.offsetX} ${e.offsetY}`);
+  // console.log(`drag start: ${e.offsetX} ${e.offsetY}`);
   activeWord = e.target;
+  activeWord.style.zIndex = 1;
   activeWordRect = activeWord.getBoundingClientRect();
-  console.log(`activeword top: ${activeWordRect.top}, activeWord left: ${activeWordRect.left}`)
+  // console.log(`activeword top: ${activeWordRect.top}, activeWord left: ${activeWordRect.left}`)
   wordDifLeft = e.offsetX;
   wordDifTop =  e.offsetY;
 }
@@ -43,8 +44,9 @@ function dragoverHandler(e) {
 
 function dropHandler(e) {
   e.preventDefault();
-  console.log('drag drop');
-  console.log(`mouse x: ${e.offsetX}, mouse y: ${e.offsetY}`)
+  console.log('drag drop', e);
+  activeWord.style.zIndex = 0;
+  // console.log(`mouse x: ${e.offsetX}, mouse y: ${e.offsetY}`)
   socket.emit('wordMoved', {id: activeWord.id, x: (e.offsetX - wordDifLeft) / boardWidth, y: (e.offsetY - wordDifTop) / boardWidth});
 }
 
@@ -52,9 +54,9 @@ function dropHandler(e) {
 function moveTheWord(serverWord) {
   console.log(serverWord)
   var movedWord = document.getElementById(serverWord.id);
-  console.log('movedWord', movedWord)
+  // console.log('movedWord', movedWord)
   movedWord.style.left = serverWord.x * 90 + 'vw';
-  movedWord.style.top = serverWord.y * 90 + 3.5 + 'vw';
+  movedWord.style.top = serverWord.y * 90 + 3 + 'vw';
 }
 
 function loadTheWords(data) {

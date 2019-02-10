@@ -17,7 +17,7 @@ socket.on('newClientConnection', (data) => {
 })
 
 socket.on('movingWord', (serverWord) => {
-  console.log(serverWord)
+  // console.log(serverWord)
   moveTheWord(serverWord);
 })
 
@@ -60,7 +60,7 @@ function moveTheWord(serverWord) {
 }
 
 function loadTheWords(data) {
-  console.log(data[0])
+  // console.log(data[0])
   
   data.forEach((word, index) => {
     let theWord = document.createElement('span');

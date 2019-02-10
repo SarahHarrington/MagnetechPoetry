@@ -11,6 +11,7 @@ header {
   /* border: .1rem solid #d3d3d3; */
   height: 60vw;
   width: 90vw;
+  z-index: -1;
 }
 
 .word {
